@@ -2,7 +2,7 @@
    Every file the page needs is kept on the phone, so it opens with no internet.
    When the page is changed, raise VERSION so phones fetch the new copy. */
 
-const VERSION = 'boundaries-v2';
+const VERSION = 'boundaries-v3';
 const FILES = [
   './',
   'index.html',
@@ -25,7 +25,11 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== VERSION).map((k) => caches.delete(k))))
+      // Only ever remove this app's own old copies. Garden Diary and Memory Jar share this
+      // web address, and their offline copies must be left alone.
+      .then((keys) => Promise.all(keys
+        .filter((k) => k.startsWith('boundaries-') && k !== VERSION)
+        .map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
