@@ -2,7 +2,7 @@
    Every file the page needs is kept on the phone, so it opens with no internet.
    When the page is changed, raise VERSION so phones fetch the new copy. */
 
-const VERSION = 'boundaries-v3';
+const VERSION = 'boundaries-v4';
 const FILES = [
   './',
   'index.html',
